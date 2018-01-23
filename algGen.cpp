@@ -2,7 +2,9 @@
 *								 Algoritmo Genetico							 *
 \******************************************************************************/
 #include "defTipo.hpp"
-#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
 
 /******************************************************************************\
 *				  	Impressao na tela							 			 *
@@ -97,9 +99,10 @@ int main(void) {
 	
 	// Execucao	
 	cout<<"***** Algoritmo Genetico *****"<<endl;
+	esn = new ESN(inputSize, repSize, outputSize, n_rec);
 
 	for(nroExec = 0; nroExec < nroMaxExec; nroExec++) {
-			random = new Random(1,nroExec+1);	// semente para gerar os numeros aleatorios
+		random = new Random(1,nroExec+1);					// semente para gerar os numeros aleatorios
 		
 		// Visualizacao
 		cout<<"\tExecucao: "<<nroExec<<endl<<endl;
@@ -116,6 +119,7 @@ int main(void) {
 	delete [] popVelha.indiv;
 	delete [] popNova.indiv;
 	desaloc_matrixd(arq_melhor_individuo,maxGen+1);
+	delete esn;
 	
 	/* Visualizacao */
 	cout<<"\tFim do programa!"<<endl;

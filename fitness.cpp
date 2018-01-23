@@ -3,7 +3,6 @@
 \******************************************************************************/
 #include "defTipo.hpp"
 #include "Simulador.hpp"
-#include <iostream>
 
 /******************************************************************************\
 *								Calculo Fitness 							 *
@@ -14,7 +13,6 @@ double calcFitness(alelo *indiv, int gen)
 	double *mov;
 	double *in;
 	Simulador *simulador = new Simulador(200,120);
-	esn = new ESN(inputSize, repSize, outputSize, n_rec);
 
 	//Pesos do repositório
 	esn->setResWeight(indiv); 
@@ -30,12 +28,12 @@ double calcFitness(alelo *indiv, int gen)
 			if(mov[i] > mov[aux])
 				aux = i;
 		
-		simulador->execute(aux, 10);
-		
+		if(!simulador->execute(aux, 10))
+			break;
+					
 		if(aux == 3)
 			Fitness++;	
 	}
-	delete esn;
 	delete simulador;
 		
 	return Fitness / (double)n;

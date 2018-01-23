@@ -1,0 +1,64 @@
+# Project: algGen_real
+# Makefile created by Dev-C++ 5.7.1
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+OBJ      = algGen.o defValor.o estatistica.o fitness.o geracao.o reproducao.o salvArq.o selecao.o util_funcions.o Random/nr_ran.o Random/Random.o SerialClass/SerialClass.o TEsn.o
+LINKOBJ  = algGen.o defValor.o estatistica.o fitness.o geracao.o reproducao.o salvArq.o selecao.o util_funcions.o Random/nr_ran.o Random/Random.o SerialClass/SerialClass.o TEsn.o
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/lib" -static-libstdc++ -static-libgcc -g3
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include/c++"
+BIN      = algGen_real.exe
+CXXFLAGS = $(CXXINCS) -g3
+CFLAGS   = $(INCS) -g3
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+algGen.o: algGen.cpp
+	$(CPP) -c algGen.cpp -o algGen.o $(CXXFLAGS)
+
+defValor.o: defValor.cpp
+	$(CPP) -c defValor.cpp -o defValor.o $(CXXFLAGS)
+
+estatistica.o: estatistica.cpp
+	$(CPP) -c estatistica.cpp -o estatistica.o $(CXXFLAGS)
+
+fitness.o: fitness.cpp
+	$(CPP) -c fitness.cpp -o fitness.o $(CXXFLAGS)
+
+geracao.o: geracao.cpp
+	$(CPP) -c geracao.cpp -o geracao.o $(CXXFLAGS)
+
+reproducao.o: reproducao.cpp
+	$(CPP) -c reproducao.cpp -o reproducao.o $(CXXFLAGS)
+
+salvArq.o: salvArq.cpp
+	$(CPP) -c salvArq.cpp -o salvArq.o $(CXXFLAGS)
+
+selecao.o: selecao.cpp
+	$(CPP) -c selecao.cpp -o selecao.o $(CXXFLAGS)
+
+util_funcions.o: util_funcions.cpp
+	$(CPP) -c util_funcions.cpp -o util_funcions.o $(CXXFLAGS)
+
+Random/nr_ran.o: Random/nr_ran.cpp
+	$(CPP) -c Random/nr_ran.cpp -o Random/nr_ran.o $(CXXFLAGS)
+
+Random/Random.o: Random/Random.cpp
+	$(CPP) -c Random/Random.cpp -o Random/Random.o $(CXXFLAGS)
+
+SerialClass/SerialClass.o: SerialClass/SerialClass.cpp
+	$(CPP) -c SerialClass/SerialClass.cpp -o SerialClass/SerialClass.o $(CXXFLAGS)
+
+TEsn.o: TEsn.cpp
+	$(CPP) -c TEsn.cpp -o TEsn.o $(CXXFLAGS)

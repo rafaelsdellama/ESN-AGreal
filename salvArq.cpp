@@ -4,6 +4,7 @@
 #include "defTipo.hpp"
 #include <iostream>
 #include <cstdio>
+#include <cstdlib>
 #include <direct.h>
 
 char nameDir[] = "output";

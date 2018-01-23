@@ -7,6 +7,8 @@
 #include "Random/Random.h"
 #include "TEsn.hpp"
 
+#include <iostream>
+
 using namespace std; 
 
 /* Definicao dos tipos de dados */
@@ -36,6 +38,12 @@ extern int tamTorneio;									// tamanho do torneio (usado na selecao por torne
 extern double *arq_media_fitness, *arq_melhor_fitness;  // dados para serem gravados
 extern double **arq_melhor_individuo;						// dados para serem gravados
 extern bool elitismo;									// true: elitismo ; false: sem elitismo
+extern bool imigracao;									// true: imigracao ; false: sem imigracao
+extern double taxaMigracao;								// taxa de imigração
+extern bool hipermutacao;								// true: hipermutacao ; false: sem hipermutacao
+extern int tamCiclo;									// tamanho do ciclo de hipermutação
+extern double taxaR;									//porcentagem de acrescimo na taxa de mutação
+extern bool cicloHipermutacao;							//determina se acabou de ocorrer um ciclo de hipermutação
 extern Random *random;
 extern ESN *esn;
 extern int inputSize, repSize, outputSize, n_rec; //Parametros ESN
@@ -59,6 +67,8 @@ void arq_saida(int nroExec);
 void salv_pop(int nroExec);
 void ler_pop(int nroExec);
 void apaga_arquivos(int nroExec);
+void imigranteAleatorio();
+void calcHipermutacao(int gen);
 
 //ESN
 double largEig(double **M, int l , int c);

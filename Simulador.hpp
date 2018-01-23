@@ -22,7 +22,7 @@ class Simulador
 		Simulador(int tamX, int tamY);
 		Simulador(int tamX, int tamY, int raio, int posX, int posY, int ang);
 		~Simulador();
-		void execute(int acao, int dist);
+		bool execute(int acao, int dist);
 		double* readSensor(int dist);
 		
 };// class simulador
@@ -54,7 +54,10 @@ Simulador::~Simulador(){
 }//destrutor
 
 //-----------------	execute -----------------//
-void Simulador::execute(int acao, int dist){
+/*
+* retuen true: mov executado com sucesso, false caso contrário
+*/
+bool Simulador::execute(int acao, int dist){
 		/*	
 			*Ação
 		1 -- vira 45º
@@ -85,17 +88,20 @@ void Simulador::execute(int acao, int dist){
 					posX = posX + dist * cos(ang * PI / 180.0);
 					posY = posY + dist * sin(ang * PI / 180.0);
 				}
+				else
+					return false;
 				break;
-		}//switch				
+		}//switch
+		return true;			
 }// execute
 
 //-----------------	readSensor -----------------//
 double* Simulador::readSensor(int dist){
 	double *sensores = new double[4];
-	sensores[0] = sensor(dist, ang - 45);
-	sensores[1] = sensor(dist, ang);
-	sensores[2] = sensor(dist, ang + 45);
-	sensores[3] = 0;
+	sensores[0] = sensor(dist, ang - 45); 		// direita
+	sensores[1] = sensor(dist, ang);			// frontal
+	sensores[2] = sensor(dist, ang + 45); 		// esquerda
+	sensores[3] = 0; 							// cima
 	
 	return sensores;
 }//readSensor

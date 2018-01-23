@@ -80,15 +80,16 @@ interconexao esparsa (cerca de 1-20%). - esn*/
         		W[i][j] = 0;
         }
 	}
+	/*
 	cout << "largEig... ";
 	// Scaling weights to spectral_radius_d weights
 	double spectral_radius = largEig(W, repSize, repSize);
-		cout << " calculado!" << endl;
+	cout << " calculado!" << endl;
 	// Normalizing W to desired spectral radius (Scaling W to spectral_radius_d (1/spectral_radius) W)
 	for (int i = 0; i < repSize; i++)
 		for (int j = 0; j < repSize; j++)
 				W[i][j] = spectral_radius * W[i][j] / spectral_radius;
-		
+	*/	
 	std::cout << "Conferir geração pesos da primeira camada e recorrencia!" << std::endl;	
 }// weightInput
 
@@ -128,7 +129,7 @@ double* ESN::Execute (double *in)
 	double *aux;
 	aux = outRep;
 	outRep = recorrence;
-	recorrence = outRep;
+	recorrence = aux;
 		
 	double *out = new double[outputSize];
 	for(int i = 0; i < outputSize; i++){
