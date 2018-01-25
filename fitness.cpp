@@ -9,6 +9,7 @@
 \******************************************************************************/
 double calcFitness(alelo *indiv, int gen)
 {
+	
 	int Fitness = 0;
 	double *mov;
 	double *in;
@@ -16,7 +17,8 @@ double calcFitness(alelo *indiv, int gen)
 
 	//Pesos do repositório
 	esn->setResWeight(indiv); 
-	int n = 1000;
+	int n = 1800;
+
 	for(int i = 0; i < n; i++){
 		in = simulador->readSensor(10);
 		
@@ -33,7 +35,11 @@ double calcFitness(alelo *indiv, int gen)
 					
 		if(aux == 3)
 			Fitness++;	
+	
+		delete mov;
+		delete in;
 	}
+
 	delete simulador;
 		
 	return Fitness / (double)n;

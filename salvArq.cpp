@@ -30,6 +30,7 @@ void arq_saida(int nroExec)
 		fprintf(Fit_arq,"%.3lf\n",arq_media_fitness[i]);
 
 	fclose(Fit_arq);
+	delete Fit_arq;
 
 
    // Fitness do Melhor Individuo de Cada Geracao
@@ -42,6 +43,8 @@ void arq_saida(int nroExec)
 		fprintf(Melfit_arq,"%.3lf\n",arq_melhor_fitness[i]);
 	
 	fclose(Melfit_arq);
+	delete Melfit_arq;
+	delete nome_p;
 
 	//Melhor Individuo de Cada Geracao
 	FILE *arq;
@@ -58,6 +61,7 @@ void arq_saida(int nroExec)
 			fprintf(arq, "\n");
 		}
 		int closeResult = fclose(arq);
+		delete arq;
 		if(closeResult == 0)
 			cout << "\nMelhores Individuos salvos com sucesso!" << endl;
 		else
@@ -65,7 +69,7 @@ void arq_saida(int nroExec)
 	}
 	else
 		cout << "\nErro ao abrir o arquivo!" << endl;
-			
+		
 		salv_pop(nroExec);
 }
 //-----------------------------------------------------------------------/
@@ -95,6 +99,7 @@ void salv_pop(int nroExec)
 		
 
 		int closeResult = fclose(Pop_arq);
+		delete Pop_arq;
 		if(closeResult == 0)
 			cout << "Populacao salva com sucesso!" << endl;
 		else
@@ -131,7 +136,8 @@ void ler_pop(int nroExec)
 	fscanf(Pop_arq,"%d", &popVelha.melhorIndividuo2); //melhor2 individuo
 	fscanf(Pop_arq,"%lf", &popVelha.mediaFitness); //media fitness
 
-	fclose(Pop_arq);	
+	fclose(Pop_arq);
+	delete Pop_arq;	
 }
 //-----------------------------------------------------------------------/
 void apaga_arquivos(int nroExec)

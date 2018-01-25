@@ -13,7 +13,7 @@ ESN *esn;
 
 // Parametros ESN
 int inputSize = 4;
-int repSize = 50;
+int repSize = 5;
 int outputSize = 4;
 int n_rec = 3;  									//Não está sendo utilizado!
 

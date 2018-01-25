@@ -22,15 +22,15 @@ void impressao(populacao *pop , int gen) {
 \******************************************************************************/
 void inicializacao(int nroExec) {
 	
-	int op;
-	
+	int op = 0;
+	/*
 	do 
 	{
 		cout << "\t1 - Continuar de onde parou" << endl;
 		cout << "\t0 - Reiniciar\n" << endl;
 		cin >> op;
 	}while (op != 0 && op != 1 );
-	
+	*/
 	switch(op)
 	{
 		case 0 : //Reiniciar
@@ -86,17 +86,16 @@ int main(void) {
 
 	int nroExec, num_ind;
 
-	// Alocacao Dinamica de Memoria
-	arq_media_fitness = aloc_vectord(maxGen+1);
-	arq_melhor_fitness = aloc_vectord(maxGen+1);
-	popVelha.indiv = aloc_vectorind(tamPop);
-	popNova.indiv = aloc_vectorind(tamPop);
+	arq_media_fitness = new double [maxGen+1];
+	arq_melhor_fitness = new double [maxGen+1];
+	popVelha.indiv = new individuo [tamPop];
+	popNova.indiv = new individuo [tamPop];
 	for (num_ind=0;num_ind<tamPop;num_ind++){
-		popVelha.indiv[num_ind].cromossomo = aloc_vectord(lcrom);
-		popNova.indiv[num_ind].cromossomo = aloc_vectord(lcrom);
+		popVelha.indiv[num_ind].cromossomo = new double [lcrom];
+		popNova.indiv[num_ind].cromossomo = new double [lcrom];
 	}
-	arq_melhor_individuo = aloc_matrixd(maxGen+1,lcrom);
-	
+	arq_melhor_individuo = aloc_matrixd(maxGen+1,lcrom);	
+		
 	// Execucao	
 	cout<<"***** Algoritmo Genetico *****"<<endl;
 	esn = new ESN(inputSize, repSize, outputSize, n_rec);
@@ -106,7 +105,8 @@ int main(void) {
 		
 		// Visualizacao
 		cout<<"\tExecucao: "<<nroExec<<endl<<endl;
-		algGen(nroExec);									// chama a execucao do AG para uma semente aleatoria
+		algGen(nroExec);
+		delete random;								// chama a execucao do AG para uma semente aleatoria
 	}//for
 
 	// Desalocacao de Memoria
