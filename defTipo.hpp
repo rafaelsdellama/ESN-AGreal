@@ -46,7 +46,8 @@ extern double taxaR;									//porcentagem de acrescimo na taxa de mutação
 extern bool cicloHipermutacao;							//determina se acabou de ocorrer um ciclo de hipermutação
 extern Random *random;
 extern ESN *esn;
-extern int inputSize, repSize, outputSize, n_rec; //Parametros ESN
+extern int inputSize, repSize, outputSize, n_rec; 		//Parametros ESN
+extern 	int numMov, batterry ;							//Parametros Simulação
 
 /*Declaração das funções */
 void algGen ( int nroExec);
@@ -65,7 +66,9 @@ void geracao(int gen);
 void crossover(alelo *pai1, alelo *pai2, alelo *filho1 , alelo *filho2 ,  int j );
 void arq_saida(int nroExec);
 void salv_pop(int nroExec);
+void salv_esn(int nroExec);
 void ler_pop(int nroExec);
+void ler_esn(int nroExec);
 void apaga_arquivos(int nroExec);
 void imigranteAleatorio();
 void calcHipermutacao(int gen);

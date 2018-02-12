@@ -24,6 +24,7 @@ class Simulador
 		~Simulador();
 		bool execute(int acao, int dist);
 		double* readSensor(int dist);
+		bool isBase();
 		
 };// class simulador
 //-----------------------------------------	TSimulador.cpp -----------------------------------------//
@@ -115,3 +116,10 @@ int Simulador::sensor (int dist, int ang){
 		return 1;
 	return 0;
 }//sensor
+
+//-----------------	isBase -----------------//
+bool Simulador::isBase(){
+	 if(posX < 30 && posY < 30)
+		return true;
+	 return false;
+}//isBase

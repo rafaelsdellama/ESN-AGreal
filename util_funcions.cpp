@@ -460,7 +460,7 @@ double largEig(double **M, int l , int c)
 			for (i=0;i<c;i++) 
 				x[i]= y[i]/b;
 
-    }while(fabs(b-temp)>0.000001);
+    }while(fabs(b-temp)>0.0001); //diminui 2 casa decimal!
 
 	delete [] y;
 	delete [] x;

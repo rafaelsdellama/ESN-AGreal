@@ -71,6 +71,7 @@ void arq_saida(int nroExec)
 		cout << "\nErro ao abrir o arquivo!" << endl;
 		
 		salv_pop(nroExec);
+		salv_esn(nroExec);
 }
 //-----------------------------------------------------------------------/
 void salv_pop(int nroExec)
@@ -109,6 +110,43 @@ void salv_pop(int nroExec)
 		cout << "\nErro ao abrir o arquivo pop.dat!" << endl;
 	
 }
+
+//-----------------------------------------------------------------------/
+void salv_esn(int nroExec)
+{
+	FILE *ESN_arq;
+	char nome[64];
+	
+	sprintf(nome,"%s/esn_%d.dat", nameDir, nroExec); 
+	ESN_arq = fopen(nome, "wt");
+	
+	if(ESN_arq != NULL)
+	{
+		//Salva pesos camada de entrada - Win
+		double **Win = esn->getWin();
+		for(int i = 0; i < repSize; i++)
+			for(int j = 0; j < inputSize + 1; j++)
+				fprintf(ESN_arq, "%lf ",Win[i][j]); //soma fitness
+		
+		fprintf(ESN_arq, "\n\n");
+		//Salva pesos do reservatório - W
+		double **W = esn->getW();
+		for(int i = 0; i < repSize; i++)
+			for(int j = 0; j < repSize; j++)
+				fprintf(ESN_arq, "%lf ",W[i][j]); //soma fitness
+	
+		int closeResult = fclose(ESN_arq);
+		delete ESN_arq;
+		if(closeResult == 0)
+			cout << "ESN salva com sucesso!" << endl;
+		else
+			cout << "\nErro ao fechar o arquivo esn.dat!" << endl;
+	
+	}
+	else
+		cout << "\nErro ao abrir o arquivo esn.dat!" << endl;
+}
+
 //-----------------------------------------------------------------------/
 void ler_pop(int nroExec)
 {
@@ -139,6 +177,43 @@ void ler_pop(int nroExec)
 	fclose(Pop_arq);
 	delete Pop_arq;	
 }
+
+//-----------------------------------------------------------------------/
+void ler_esn(int nroExec)
+{
+	FILE *ESN_arq;
+	char nome[64];
+	sprintf(nome,"%s/esn_%d.dat", nameDir, nroExec); 
+	
+	if ((ESN_arq = fopen(nome,"r"))==NULL) {
+		cout<<"O arquivo de gravacao dos dados da ESN nao pode ser aberto "<<endl;
+		exit(1);
+	}
+	
+	double **W, **Win;
+	Win = new double*[repSize];
+	W = new double*[repSize];
+	
+	for(int i = 0; i < repSize; i++){
+		Win[i] = new double[inputSize + 1]; // +1 = bias
+		W[i] = new double[repSize];
+	}
+	
+	//Ler pesos camada de entrada - Win
+	for(int i = 0; i < repSize; i++)
+		for(int j = 0; j < inputSize + 1; j++)
+			fscanf(ESN_arq,"%lf", &Win[i][j]);
+	esn->setWin(Win);
+			
+	//Ler pesos do reservatório - W
+	for(int i = 0; i < repSize; i++)
+		for(int j = 0; j < repSize; j++)
+			fscanf(ESN_arq,"%lf", &W[i][j]);
+	esn->setW(W);
+	
+	fclose(ESN_arq);
+	delete ESN_arq;
+}
 //-----------------------------------------------------------------------/
 void apaga_arquivos(int nroExec)
 {
@@ -151,6 +226,8 @@ void apaga_arquivos(int nroExec)
 	sprintf(nome,"%s/fit_%d.dat", nameDir, nroExec); 
 	remove(nome);
 	sprintf(nome,"%s/mfi_%d.dat", nameDir, nroExec); 
+	remove(nome); 
+	sprintf(nome,"%s/esn_%d.dat", nameDir, nroExec); 
 	remove(nome); 
 	cout << "Arquivos apagados com sucesso!" << endl << endl;
 }

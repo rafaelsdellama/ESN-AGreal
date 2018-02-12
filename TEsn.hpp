@@ -12,6 +12,10 @@ class ESN
 		~ESN();
 		double* Execute (double *in);
 		void setResWeight (double *weight);
+		double** getWin ();
+		void setWin (double **weight);
+		double** getW ();
+		void setW (double **weight);
 		
 	private:
 		double FuncAtivacao (double x);

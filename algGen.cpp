@@ -23,14 +23,14 @@ void impressao(populacao *pop , int gen) {
 void inicializacao(int nroExec) {
 	
 	int op = 0;
-	/*
+	
 	do 
 	{
 		cout << "\t1 - Continuar de onde parou" << endl;
 		cout << "\t0 - Reiniciar\n" << endl;
 		cin >> op;
 	}while (op != 0 && op != 1 );
-	*/
+	
 	switch(op)
 	{
 		case 0 : //Reiniciar
@@ -51,6 +51,7 @@ void inicializacao(int nroExec) {
 		case 1 : //Continuar de onde parou
 			cout << "Lendo a populacao salva ...\n" << endl;
 			ler_pop(nroExec);
+			ler_esn(nroExec);
 			break;
 	}
 	impressao(&popVelha,0);
@@ -98,14 +99,15 @@ int main(void) {
 		
 	// Execucao	
 	cout<<"***** Algoritmo Genetico *****"<<endl;
-	esn = new ESN(inputSize, repSize, outputSize, n_rec);
 
-	for(nroExec = 0; nroExec < nroMaxExec; nroExec++) {
-		random = new Random(1,nroExec+1);					// semente para gerar os numeros aleatorios
-		
+	for(nroExec = 0; nroExec < nroMaxExec; nroExec++) {	
 		// Visualizacao
 		cout<<"\tExecucao: "<<nroExec<<endl<<endl;
+		random = new Random(1,nroExec+1);					// semente para gerar os numeros aleatorios
+		esn = new ESN(inputSize, repSize, outputSize, n_rec);
 		algGen(nroExec);
+		
+		delete esn;
 		delete random;								// chama a execucao do AG para uma semente aleatoria
 	}//for
 
@@ -119,8 +121,7 @@ int main(void) {
 	delete [] popVelha.indiv;
 	delete [] popNova.indiv;
 	desaloc_matrixd(arq_melhor_individuo,maxGen+1);
-	delete esn;
-	
+
 	/* Visualizacao */
 	cout<<"\tFim do programa!"<<endl;
 

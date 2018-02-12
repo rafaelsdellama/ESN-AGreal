@@ -63,6 +63,7 @@ ESN::~ESN()
 */
 void ESN::weightInput(){
 	double min_W = -0.6, max_W = 0.6;
+	double spectral_radius_d = 0.95;
 	double con_density = 0.15; 
 
 /* Para finalidades praticas, entretanto, basta ajustar o raio espectral ƒÏ(W) de W a um valor abaixo da unidade para garantir a propriedade de echo
@@ -80,16 +81,17 @@ interconexao esparsa (cerca de 1-20%). - esn*/
         		W[i][j] = 0;
         }
 	}
-	/*
-	cout << "largEig... ";
-	// Scaling weights to spectral_radius_d weights
+	
+	//  Computing the spectral radius of weights
 	double spectral_radius = largEig(W, repSize, repSize);
-	cout << " calculado!" << endl;
+
+
 	// Normalizing W to desired spectral radius (Scaling W to spectral_radius_d (1/spectral_radius) W)
 	for (int i = 0; i < repSize; i++)
 		for (int j = 0; j < repSize; j++)
 				W[i][j] = spectral_radius * W[i][j] / spectral_radius;
-	*/	
+
+		
 	std::cout << "Conferir geração pesos da primeira camada e recorrencia!" << std::endl;	
 }// weightInput
 
@@ -150,3 +152,47 @@ double ESN::FuncAtivacao (double x)
 	return ( (exp(x) - exp(-x)) / (exp(x) + exp(-x)));	
 }//FuncAtivacao
 
+//-----------------	getWin -----------------//
+/*
+* retorna a matriz Win, contendo os pesos da camada de entrada
+*/
+double** ESN::getWin ()
+{
+	return Win;
+	
+}//getWin
+
+//-----------------	setWin -----------------//
+/*
+* define os pesos de Win, pesos da camada de entrada
+*/
+void ESN::setWin (double **weight)
+{
+	for(int i = 0; i < repSize; i++)
+		delete Win[i];
+	delete Win;
+	
+	Win = weight;
+}//setWin
+
+//-----------------	getW -----------------//
+/*
+* retorna a matriz W, contendo os pesos do repositório
+*/
+double** ESN::getW ()
+{
+	return W;
+}//getW
+
+//-----------------	setWin -----------------//
+/*
+* define os pesos de W, pesos do repositório
+*/
+void ESN::setW (double **weight)
+{
+	for(int i = 0; i < repSize; i++)
+		delete W[i];
+	delete W;
+	
+	W = weight;
+}//setW

@@ -5,9 +5,9 @@
 #include "Simulador.hpp"
 
 /******************************************************************************\
-*								Calculo Fitness 							 *
+*								Calculo Fitness Simulador					 *
 \******************************************************************************/
-double calcFitness(alelo *indiv, int gen)
+double calcFitnessSimulador(alelo *indiv, int gen)
 {
 	
 	int Fitness = 0;
@@ -17,24 +17,28 @@ double calcFitness(alelo *indiv, int gen)
 
 	//Pesos do repositório
 	esn->setResWeight(indiv); 
-	int n = 1800;
 
-	for(int i = 0; i < n; i++){
-		in = simulador->readSensor(10);
+	for(int i = 0, j = batterry; i < numMov && j > 0; i++, j--){
+		in = simulador->readSensor(10);		
 		
-		mov = esn->Execute(in);
+		mov = esn->Execute(in);				//Verifica a saída da ESN de acordo com a entrada
 		
-		//Define qual movimento vai ser executado (movimento correspondete a maior saída)
+		//Define qual movimento vai ser executado (movimento correspondete ao neuronio de maior ativação)
 		int aux = 0;
-		for(int i = 1; i < outputSize; i++)
-			if(mov[i] > mov[aux])
-				aux = i;
+		for(int k = 1; k < outputSize; k++)
+			if(mov[k] > mov[aux])
+				aux = k;
 		
-		if(!simulador->execute(aux, 10))
+		//Se o robô bateu, finaliza a simulação
+		if(!simulador->execute(aux, 10)) 
 			break;
-					
-		if(aux == 3)
-			Fitness++;	
+		
+		//Verifica se o robô está na base
+		if(simulador->isBase())
+			j = batterry;						 //Recarrega a bateria
+		else
+			if(aux == 3) //mov 3 corresponde a andar para frente	
+				Fitness++;	
 	
 		delete mov;
 		delete in;
@@ -42,6 +46,19 @@ double calcFitness(alelo *indiv, int gen)
 
 	delete simulador;
 		
-	return Fitness / (double)n;
+	return Fitness / (double)numMov;
 }
 
+
+/******************************************************************************\
+*								Calculo Fitness 							 *
+\******************************************************************************/
+double calcFitness(alelo *indiv, int gen)
+{
+	double Fitness = 0;	
+	for(int i = 0; i < 10; i++)
+		Fitness += calcFitnessSimulador(indiv, gen);
+
+	Fitness = Fitness / 10;
+	return Fitness;
+}
