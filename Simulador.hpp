@@ -25,6 +25,8 @@ class Simulador
 		bool execute(int acao, int dist);
 		double* readSensor(int dist);
 		bool isBase();
+		int getPosX();
+		int getPosY();
 		
 };// class simulador
 //-----------------------------------------	TSimulador.cpp -----------------------------------------//
@@ -93,6 +95,7 @@ bool Simulador::execute(int acao, int dist){
 					return false;
 				break;
 		}//switch
+		
 		return true;			
 }// execute
 
@@ -102,7 +105,10 @@ double* Simulador::readSensor(int dist){
 	sensores[0] = sensor(dist, ang - 45); 		// direita
 	sensores[1] = sensor(dist, ang);			// frontal
 	sensores[2] = sensor(dist, ang + 45); 		// esquerda
-	sensores[3] = 0; 							// cima
+	if(isBase())
+		sensores[3] = 1;						// cima
+	else
+		sensores[3] = 0;						// cima
 	
 	return sensores;
 }//readSensor
@@ -123,3 +129,14 @@ bool Simulador::isBase(){
 		return true;
 	 return false;
 }//isBase
+
+//-----------------	getPosX -----------------//
+int Simulador::getPosX(){
+	return posX;
+}//getPosX
+
+//-----------------	getPosY -----------------//
+int Simulador::getPosY(){
+	return posY;
+}//getPosY
+

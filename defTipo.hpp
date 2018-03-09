@@ -50,8 +50,8 @@ extern int inputSize, repSize, outputSize, n_rec; 		//Parametros ESN
 extern 	int numMov, batterry ;							//Parametros Simulação
 
 /*Declaração das funções */
-void algGen ( int nroExec);
-void inicializacao(int nroExec);
+void algGen ( int nroExec, int op);
+void inicializacao(int nroExec, int op);
 void impressao(populacao *pop , int gen);
 double calcFitness(alelo *indiv, int gen);
 double *aloc_vectord(int lines);
@@ -72,6 +72,8 @@ void ler_esn(int nroExec);
 void apaga_arquivos(int nroExec);
 void imigranteAleatorio();
 void calcHipermutacao(int gen);
+double calcTrajeto (alelo *indiv, int nroExec);
+void salv_traj(int **pos, int n, int nroExec);
 
 //ESN
 double largEig(double **M, int l , int c);

@@ -43,5 +43,5 @@ double taxaMigracao = 0.05;							// taxa de imigrantes
 
 
 //Parametros Simulação
-int numMov = 300;
-int batterry = 80;
+int numMov = 300; //390
+int batterry = 80; // 130

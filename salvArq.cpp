@@ -126,14 +126,14 @@ void salv_esn(int nroExec)
 		double **Win = esn->getWin();
 		for(int i = 0; i < repSize; i++)
 			for(int j = 0; j < inputSize + 1; j++)
-				fprintf(ESN_arq, "%lf ",Win[i][j]); //soma fitness
+				fprintf(ESN_arq, "%lf ",Win[i][j]); 
 		
 		fprintf(ESN_arq, "\n\n");
 		//Salva pesos do reservatório - W
 		double **W = esn->getW();
 		for(int i = 0; i < repSize; i++)
 			for(int j = 0; j < repSize; j++)
-				fprintf(ESN_arq, "%lf ",W[i][j]); //soma fitness
+				fprintf(ESN_arq, "%lf ",W[i][j]); 
 	
 		int closeResult = fclose(ESN_arq);
 		delete ESN_arq;
@@ -145,6 +145,33 @@ void salv_esn(int nroExec)
 	}
 	else
 		cout << "\nErro ao abrir o arquivo esn.dat!" << endl;
+}
+
+//-----------------------------------------------------------------------/
+void salv_traj(int **pos, int n, int nroExec){
+	FILE *traj_arq;
+	char nome[64];
+	
+	sprintf(nome,"%s/traj_%d.dat", nameDir, nroExec); 
+	traj_arq = fopen(nome, "wt");
+	
+	if(traj_arq != NULL)
+	{
+		for(int i = 0; i < n; i++){
+			fprintf(traj_arq, "%d ",pos[0][i]);
+			fprintf(traj_arq, "%d\n",pos[1][i]); 
+		}
+		
+		int closeResult = fclose(traj_arq);
+		delete traj_arq;
+		if(closeResult == 0)
+			cout << "Traj salvo com sucesso!" << endl;
+		else
+			cout << "\nErro ao fechar o arquivo traj.dat!" << endl;
+	
+	}
+	else
+		cout << "\nErro ao abrir o arquivo traj.dat!" << endl;
 }
 
 //-----------------------------------------------------------------------/
@@ -228,6 +255,8 @@ void apaga_arquivos(int nroExec)
 	sprintf(nome,"%s/mfi_%d.dat", nameDir, nroExec); 
 	remove(nome); 
 	sprintf(nome,"%s/esn_%d.dat", nameDir, nroExec); 
+	remove(nome); 
+		sprintf(nome,"%s/traj_%d.dat", nameDir, nroExec); 
 	remove(nome); 
 	cout << "Arquivos apagados com sucesso!" << endl << endl;
 }

@@ -30,7 +30,6 @@ ESN::ESN(int inputSize, int repSize, int outputSize, int n_rec)
 	for(int i = 0; i < repSize; i++){
 		Win[i] = new double[inputSize + 1]; // +1 = bias
 		W[i] = new double[repSize];
-		recorrence[i] = 0;
 	}
 	
 	for(int i = 0; i < outputSize; i++){
@@ -84,12 +83,12 @@ interconexao esparsa (cerca de 1-20%). - esn*/
 	
 	//  Computing the spectral radius of weights
 	double spectral_radius = largEig(W, repSize, repSize);
-
+	cout << "spectral radius: " << spectral_radius << endl;
 
 	// Normalizing W to desired spectral radius (Scaling W to spectral_radius_d (1/spectral_radius) W)
 	for (int i = 0; i < repSize; i++)
 		for (int j = 0; j < repSize; j++)
-				W[i][j] = spectral_radius * W[i][j] / spectral_radius;
+				W[i][j] = spectral_radius_d * W[i][j] / spectral_radius;
 
 		
 	std::cout << "Conferir geração pesos da primeira camada e recorrencia!" << std::endl;	
@@ -103,7 +102,11 @@ void ESN::setResWeight (double *weight)
 {	
 	for(int i = 0; i < outputSize; i++)
 		for(int j = 0; j < repSize + 1; j++)
-			Wout[i][j] = weight[i*repSize + j];			
+			Wout[i][j] = weight[i*repSize + j];		
+			
+			
+	for(int i = 0; i < repSize; i++)
+		recorrence[i] = 0;
 			
 }//setResWeight
 
@@ -114,32 +117,26 @@ void ESN::setResWeight (double *weight)
 */
 double* ESN::Execute (double *in)
 {	
+	double sum;
 	for(int i = 0; i < repSize; i++){
-		outRep[i] = Win[i][0];
+		sum = Win[i][0];
 		for(int j = 1; j < inputSize + 1; j++)
-			outRep[i] += Win[i][j] * in[j-1];
-		outRep[i] = FuncAtivacao(outRep[i]);
-	}
-	
-	for(int i = 0; i < repSize; i++){
+			sum += Win[i][j] * in[j-1];
 		for(int j = 0; j < repSize; j++)
-			outRep[i] += W[i][j] * recorrence[i];
-		outRep[i] = FuncAtivacao(outRep[i]);
+			sum += W[i][j] * recorrence[i];
+		outRep[i] = FuncAtivacao(sum);
 	}
-
-	//Como outRep e recorrence são ponteiros, precisar ser assim..
-	double *aux;
-	aux = outRep;
-	outRep = recorrence;
-	recorrence = aux;
-		
+			
 	double *out = new double[outputSize];
 	for(int i = 0; i < outputSize; i++){
-		out[i] = Wout[i][0];
+		sum = Wout[i][0];
 		for(int j = 1; j < repSize + 1; j++)
-			out[i] += Wout[i][j] * outRep[j-1]; 
+			sum += Wout[i][j] * outRep[j-1]; 
+		out[i] = sum;
 	}
 
+	for(int i = 0; i < repSize; i++)
+		recorrence[i] = outRep[i];
 	return out;
 }//Execute
 
