@@ -9,8 +9,8 @@
 \******************************************************************************/
 double mutacao(alelo valorAlelo )
 {
-	if(random->nextFloat() < taxaMut)
-		return valorAlelo + random->nextGaussian(0,1);
+	if(randon->nextFloat() < taxaMut)
+		return valorAlelo + randon->nextGaussian(0,1);
 	return valorAlelo;
 }
 

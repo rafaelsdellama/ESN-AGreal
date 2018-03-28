@@ -8,7 +8,7 @@ class ESN
 {
 	public:
 		ESN();
-		ESN(int inputSize, int repSize, int outputSize, int n_rec);
+		ESN(int inputSize, int repSize, int outputSize, double spectral_radius_d, double con_density);
 		~ESN();
 		double* Execute (double *in);
 		void setResWeight (double *weight);
@@ -29,6 +29,8 @@ class ESN
 		double **Wout;
 		double *outRep;
 		double *recorrence;
+		double spectral_radius_d;
+		double con_density;
 };
 
 #endif // TESN_HPP

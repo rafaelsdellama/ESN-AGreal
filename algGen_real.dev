@@ -24,12 +24,12 @@ HostApplication=
 UseCustomMakefile=0
 CustomMakefile=
 CommandLine=
-Folders=ESN,Random,SerialClass
+Folders=ESN,Random
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0000000000000000001000000
-UnitCount=19
+UnitCount=17
 
 [VersionInfo]
 Major=1
@@ -151,9 +151,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit12]
-FileName=Random\nr_ran.h
+FileName=TEsn.hpp
 CompileCpp=1
-Folder=Random
+Folder=ESN
 Compile=1
 Link=1
 Priority=1000
@@ -161,9 +161,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit13]
-FileName=Random\Random.cpp
+FileName=Simulador.hpp
 CompileCpp=1
-Folder=Random
+Folder=
 Compile=1
 Link=1
 Priority=1000
@@ -171,7 +171,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit14]
-FileName=Random\Random.h
+FileName=nr_ran.cpp
 CompileCpp=1
 Folder=Random
 Compile=1
@@ -181,9 +181,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit11]
-FileName=Random\nr_ran.cpp
+FileName=TEsn.cpp
 CompileCpp=1
-Folder=Random
+Folder=ESN
 Compile=1
 Link=1
 Priority=1000
@@ -201,19 +201,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit16]
-FileName=SerialClass\SerialClass.h
+FileName=Randon.cpp
 CompileCpp=1
-Folder=SerialClass
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit15]
-FileName=SerialClass\SerialClass.cpp
-CompileCpp=1
-Folder=SerialClass
+Folder=Random
 Compile=1
 Link=1
 Priority=1000
@@ -221,9 +211,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit17]
-FileName=TEsn.cpp
+FileName=Randon.hpp
 CompileCpp=1
-Folder=ESN
+Folder=Random
 Compile=1
 Link=1
 Priority=1000
@@ -244,6 +234,16 @@ BuildCmd=
 FileName=Simulador.hpp
 CompileCpp=1
 Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit15]
+FileName=nr_ran.hpp
+CompileCpp=1
+Folder=Random
 Compile=1
 Link=1
 Priority=1000

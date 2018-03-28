@@ -50,7 +50,7 @@ void imigranteAleatorio()
 	for(	; individuo < tamPop; individuo++)
 		if (random_dou () < taxaMigracao) {	
 			for (gene = 0; gene < lcrom; gene++) {
-				popNova.indiv[individuo].cromossomo[gene] = random->nextFloat(-1,1); 							// inteiro aleatorio entre 0 e 1
+				popNova.indiv[individuo].cromossomo[gene] = randon->nextFloat(-1,1); 							// inteiro aleatorio entre 0 e 1
 			}
 		}
 }

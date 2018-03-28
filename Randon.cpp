@@ -1,17 +1,17 @@
 /*
- * File:   Random.cpp
+ * File:   Randon.cpp
  * Author: Shimo Ken
  *
  * Created on July 28, 2010, --:--
  *
- * Implementation of class Random.
+ * Implementation of class Randon.
  */
 
 #include <cmath>
 
-#include "Random.h"
+#include "Randon.hpp"
 
-Random::Random(int function, long seed) {
+Randon::Randon(int function, long seed) {
     idum = new long;
     *idum = seed;
 
@@ -30,19 +30,19 @@ Random::Random(int function, long seed) {
     }
 }
 
-Random::~Random() {
+Randon::~Randon() {
     delete idum;
 }
 
-int Random::nextInt(int max) {
+int Randon::nextInt(int max) {
     return (int)floor(max*nextFloat());
 }
 
-bool Random::nextBool() {
+bool Randon::nextBool() {
     return nextFloat() < 0.5;
 }
 
-long double Random::nextGaussian(long double m, long double sd) {
+long double Randon::nextGaussian(long double m, long double sd) {
     long double x1, x2, w, next;
 
     if (hasNextGaussian) //use value from previous call
@@ -67,14 +67,14 @@ long double Random::nextGaussian(long double m, long double sd) {
     return( m + next * sd );
 }
 
-long double Random::nextFloat(long double min, long double max) {
+long double Randon::nextFloat(long double min, long double max) {
     return  nextFloat() * (max-min) + min;
 }
 
-long double Random::nextFloat() {
+long double Randon::nextFloat() {
     return (*ran)(idum);
 }
 
-long Random::getidum() {
+long Randon::getidum() {
     return *idum;
 }

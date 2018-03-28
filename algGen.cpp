@@ -2,18 +2,22 @@
 *								 Algoritmo Genetico							 *
 \******************************************************************************/
 #include "defTipo.hpp"
-#include <cstdio>
 #include <cstdlib>
-#include <cmath>
+#include <iostream>
+
+using namespace std;
+
 
 /******************************************************************************\
 *				  	Impressao na tela							 			 *
 \******************************************************************************/
 void impressao(populacao *pop , int gen) {
-	cout <<"Geracao: "<<gen<<endl;
+	cout <<"Geracao: "<< gen<<endl;
 	cout <<"Individuo com melhor fitness: "<<pop->melhorIndividuo<<endl;
 	cout <<"Fitness do melhor Individuo: "<<pop->maxFitness<<endl;
-    cout <<"Media do Fitness da geracao: "<<pop->mediaFitness<<endl<<endl<<endl;
+    cout <<"Media do Fitness da geracao: "<<pop->mediaFitness<<endl;
+    cout <<"Taxa mutacao: "<< taxaMut <<endl;
+    cout <<"Taxa crossover: "<< taxaCross <<endl<<endl<<endl;
 }//impressao
 
 /******************************************************************************\
@@ -21,7 +25,7 @@ void impressao(populacao *pop , int gen) {
 \******************************************************************************/
 int menu() {
 	int op;
-	
+	return 0;
 	do 
 	{
 		cout << "\t1 - Continuar de onde parou" << endl;
@@ -44,7 +48,7 @@ void inicializacao(int nroExec, int op) {
 		
 			while( numIndiv < tamPop) {
 			 	for (gene = 0; gene < lcrom; gene++) {
-		     		popVelha.indiv[numIndiv].cromossomo[gene] = random->nextFloat(-1,1) ; 							
+		     		popVelha.indiv[numIndiv].cromossomo[gene] = randon->nextFloat(-1,1) ; 							
 				}
 		        popVelha.indiv[numIndiv].fitness = calcFitness( popVelha.indiv[numIndiv].cromossomo, 0);	// Armazena Fitness do Individuo
 				numIndiv++;
@@ -65,7 +69,7 @@ void inicializacao(int nroExec, int op) {
 *				  	Execução Algoritimo Genetico							 			 *
 \******************************************************************************/
 void algGen (int nroExec, int op) {
-	int gen = 0 ; 
+	int gen = 0; 
 	
 	inicializacao(nroExec, op);				// procedimento para inicialização das variáveis e da população 
 	
@@ -81,7 +85,7 @@ void algGen (int nroExec, int op) {
 		
 		impressao(&popVelha,gen);
 	} while ( gen < maxGen );
-	calcTrajeto (popVelha.indiv[popVelha.melhorIndividuo].cromossomo, nroExec);		//Calcula e salva a trajetoria do melhor indiv da ultima geração
+	calcTrajeto (popVelha.indiv[popVelha.melhorIndividuo].cromossomo, nroExec, gen);		//Calcula e salva a trajetoria do melhor indiv da ultima geração
 	arq_saida( nroExec);					// salva dados
 }
 
@@ -109,13 +113,13 @@ int main(void) {
 	for(nroExec = 0; nroExec < nroMaxExec; nroExec++) {	
 		// Visualizacao
 		cout<<"\tExecucao: "<<nroExec<<endl<<endl;
-		random = new Random(1,nroExec+1);					// semente para gerar os numeros aleatorios
+		randon = new Randon(1,nroExec+1);					// semente para gerar os numeros aleatorios
 		srand(nroExec+1);									// semente para gerar os numeros aleatorios
-		esn = new ESN(inputSize, repSize, outputSize, n_rec);
+		esn = new ESN(inputSize, repSize, outputSize, spectral_radius_d, con_density);
 		algGen(nroExec, op);
 		
 		delete esn;
-		delete random;								// chama a execucao do AG para uma semente aleatoria
+		delete randon;								// chama a execucao do AG para uma semente aleatoria
 	}//for
 
 	// Desalocacao de Memoria

@@ -4,15 +4,12 @@
 #ifndef DEFTIPO_HPP
 #define DEFTIPO_HPP
 
-#include "Random/Random.h"
+#include "Randon.hpp"
 #include "TEsn.hpp"
 
-#include <iostream>
-
-using namespace std; 
 
 /* Definicao dos tipos de dados */
-typedef double alelo; 							// tipo de dado que os alelos podem assumir 
+typedef double alelo; 						// tipo de dado que os alelos podem assumir 
 typedef struct estrutura_individuo {
 			alelo *cromossomo;				// cromossomo
 			double fitness;					// funcao de avaliacao	
@@ -44,10 +41,12 @@ extern bool hipermutacao;								// true: hipermutacao ; false: sem hipermutacao
 extern int tamCiclo;									// tamanho do ciclo de hipermutação
 extern double taxaR;									//porcentagem de acrescimo na taxa de mutação
 extern bool cicloHipermutacao;							//determina se acabou de ocorrer um ciclo de hipermutação
-extern Random *random;
 extern ESN *esn;
-extern int inputSize, repSize, outputSize, n_rec; 		//Parametros ESN
-extern 	int numMov, batterry ;							//Parametros Simulação
+extern Randon *randon;
+extern int inputSize, repSize, outputSize; 				//Parametros ESN
+extern double spectral_radius_d, con_density; 			//Parametros ESN
+extern int numMov, batterry, numSimulacao;				//Parametros Simulação
+extern bool dynamicEnvironment;
 
 /*Declaração das funções */
 void algGen ( int nroExec, int op);
@@ -72,7 +71,7 @@ void ler_esn(int nroExec);
 void apaga_arquivos(int nroExec);
 void imigranteAleatorio();
 void calcHipermutacao(int gen);
-double calcTrajeto (alelo *indiv, int nroExec);
+double calcTrajeto (alelo *indiv, int nroExec, int gen);
 void salv_traj(int **pos, int n, int nroExec);
 
 //ESN

@@ -10,20 +10,22 @@
 class Simulador 
 {
 	private:
-		int sensor (int dist, int ang);
+		int sensor (int dist, int ang, int gen);
 		int tamX;								// tamanho do tabladoo eixo x
 		int tamY;								// tamanho do tabladoo eixo y
 		int posX;								// posição do centro do robô no eixo x
 		int posY;								// posição do centro do robô no eixo y
 		int ang;								// angulo da frente do robô em relação ao eixo x
 		int raio;								// raio do robô
+		bool dynamicEnvironment;
+		int maxGen;
 		
 	public:
-		Simulador(int tamX, int tamY);
-		Simulador(int tamX, int tamY, int raio, int posX, int posY, int ang);
+		Simulador(int tamX, int tamY, bool dynamicEnvironment, int maxGen, int gen);
+		Simulador(int tamX, int tamY, int raio, int posX, int posY, int ang, bool dynamicEnvironment, int maxGen);
 		~Simulador();
-		bool execute(int acao, int dist);
-		double* readSensor(int dist);
+		bool execute(int acao, int dist, int gen);
+		double* readSensor(int dist, int gen);
 		bool isBase();
 		int getPosX();
 		int getPosY();
@@ -32,23 +34,39 @@ class Simulador
 //-----------------------------------------	TSimulador.cpp -----------------------------------------//
 
 //-----------------	simulador -----------------//
-Simulador::Simulador(int tamX, int tamY){
+Simulador::Simulador(int tamX, int tamY, bool dynamicEnvironment, int maxGen, int gen){
 	this->tamX = tamX;
 	this->tamY = tamY;
 	this->raio = 10;
-	this->posX = random_int(raio + 5,tamX- (raio + 5));
-	this->posY = random_int(raio + 5,tamY-(raio + 5));
 	this->ang = 45*random_int(0,7);
+	this->dynamicEnvironment = dynamicEnvironment;
+	this->maxGen = maxGen;
+	
+	//Sortear uma posição inicial sem estar no obstáculo...
+	int count = 0;
+	do{
+		if(count < 5) {
+			posX = random_int(raio + 5,tamX- (raio + 5));
+			posY = random_int(raio + 5,tamY-(raio + 5));
+			count++;
+		}
+		else {
+			posX = raio + 5;
+			posY = raio + 5;
+		}
+	} while(sensor (0, ang, gen) != 0);
 }//construtor
 
 //-----------------	simulador -----------------//
-Simulador::Simulador(int tamX, int tamY, int raio, int posX, int posY, int ang){
+Simulador::Simulador(int tamX, int tamY, int raio, int posX, int posY, int ang, bool dynamicEnvironment, int maxGen){
 	this->tamX = tamX;
 	this->tamY = tamY;
 	this->raio = raio;
 	this->posX = posX;
 	this->posY = posY;
 	this->ang = ang;
+	this->dynamicEnvironment = dynamicEnvironment;
+	this->maxGen = maxGen;
 }//construtor
 
 
@@ -60,7 +78,7 @@ Simulador::~Simulador(){
 /*
 * retuen true: mov executado com sucesso, false caso contrário
 */
-bool Simulador::execute(int acao, int dist){
+bool Simulador::execute(int acao, int dist, int gen){
 		/*	
 			*Ação
 		1 -- vira 45º
@@ -86,7 +104,7 @@ bool Simulador::execute(int acao, int dist){
 				break;
 
 			case 3 :
-				if(sensor(dist, ang) == 0){
+				if(sensor(dist, ang, gen) == 0){
 					/** Mover para frente 10cm	 M = 1	**/
 					posX = posX + dist * cos(ang * PI / 180.0);
 					posY = posY + dist * sin(ang * PI / 180.0);
@@ -100,11 +118,11 @@ bool Simulador::execute(int acao, int dist){
 }// execute
 
 //-----------------	readSensor -----------------//
-double* Simulador::readSensor(int dist){
+double* Simulador::readSensor(int dist, int gen){
 	double *sensores = new double[4];
-	sensores[0] = sensor(dist, ang - 45); 		// direita
-	sensores[1] = sensor(dist, ang);			// frontal
-	sensores[2] = sensor(dist, ang + 45); 		// esquerda
+	sensores[0] = sensor(dist, ang - 45, gen); 		// direita
+	sensores[1] = sensor(dist, ang, gen);			// frontal
+	sensores[2] = sensor(dist, ang + 45, gen); 		// esquerda
 	if(isBase())
 		sensores[3] = 1;						// cima
 	else
@@ -114,12 +132,75 @@ double* Simulador::readSensor(int dist){
 }//readSensor
 
 //-----------------	sensor -----------------//
-int Simulador::sensor (int dist, int ang){
+int Simulador::sensor (int dist, int ang, int gen){
 	double anguloRad = ang * PI / 180.0;
 	int distancia = dist + raio;
+	int x = posX + distancia*cos(anguloRad);
+	int y = posY + distancia*sin(anguloRad);
 		 
-	if( posX + distancia*cos(anguloRad) >= tamX || posX + distancia*cos(anguloRad) <= 0 || posY + distancia*sin(anguloRad) >= tamY || posY + distancia*sin(anguloRad) <= 0 )
-		return 1;
+	if( x >= tamX || x <= 0 || y >= tamY || y <= 0 )
+		return 1;	
+	
+	if(dynamicEnvironment == true) {
+		int ambiente = gen / (maxGen / 10);
+
+		switch (ambiente){
+			case 1 :
+				if(0 <= x && x <= 55 && 52 <= y && y <= 86)
+					return 1;
+				if(0 <= x && x <= 55 && 126 <= y && y <= 160)
+					return 1;
+				break;
+				
+			case 2 :
+				if(166 <= y && y <= 200)
+					return 1;
+				break;
+				
+			case 3 :
+				if(65 <= x && x <= 120 && 122 <= y && y <= 156)
+					return 1;
+				break;
+				
+			case 4 :
+				if(86 <= x && x <= 120 && 45 <= y && y <= 155)
+					return 1;
+				break;
+				
+			case 5 :
+				if(86 <= x && x <= 120 && 0 <= y && y <= 55)
+					return 1;
+				if(0 <= x && x <= 55 && 166 <= y && y <= 200)
+					return 1;
+				break;
+				
+			case 6 :
+				if(65 <= x && x <= 120 && 52 <= y && y <= 86)
+					return 1;
+				if(65 <= x && x <= 120 && 126 <= y && y <= 160)
+					return 1;		
+				break;
+				
+			case 7 :
+				if(43 <= x && x <= 77 && 45 <= y && y <= 155)
+					return 1;
+				break;
+				
+			case 8 :
+				if(65 <= x && x <= 120 && 44 <= y && y <= 78)
+					return 1;
+				if(0 <= x && x <= 55 && 122 <= y && y <= 156)
+					return 1;
+				break;
+				
+			case 9 :
+				if(43 <= x && x <= 77 && 0 <= y && y <= 55)
+					return 1;
+				if(43 <= x && x <= 77 && 145 <= y && y <= 200)
+					return 1;		
+				break;				
+		}
+	}	
 	return 0;
 }//sensor
 

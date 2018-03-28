@@ -8,25 +8,26 @@
 populacao popVelha , popNova;		
 double *arq_media_fitness, *arq_melhor_fitness; 	// dados para serem gravados
 double **arq_melhor_individuo;						// dados para serem gravados
-Random *random;
+Randon *randon;
 ESN *esn;
 
 // Parametros ESN
 int inputSize = 4;
 int repSize = 50;
 int outputSize = 4;
-int n_rec = 3;  									//Não está sendo utilizado!
+double spectral_radius_d = 0.95;
+double con_density = 0.15; 
 
 // Parametros da simulacao
 int nroMaxExec = 25;								// numero de repeticoes do AG
 int maxGen = 1000;									// numero maximo de geracoes 
 
 // Parametros do AG
-double taxaCross = 0.6;								// taxa de crossover
-double taxaMut = 1.0/lcrom;							// taxa de mutacao
-
 int tamPop = 100;									// tamanho da pop. 
 int lcrom = (repSize + 1) * outputSize;				// tamanho do cromossomo 
+
+double taxaCross = 0.6;								// taxa de crossover
+double taxaMut = 1.0/lcrom;							// taxa de mutacao
 
 bool elitismo = true;								// true: elitismo ; false: sem elitismo
 int tamTorneio = 3;									// tamanho do torneio (usado na selecao por torneio)
@@ -45,3 +46,5 @@ double taxaMigracao = 0.05;							// taxa de imigrantes
 //Parametros Simulação
 int numMov = 300; //390
 int batterry = 80; // 130
+bool dynamicEnvironment = true;
+int numSimulacao = 10;

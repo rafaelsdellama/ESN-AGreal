@@ -7,7 +7,7 @@
  * Implementation of Numerical Recipes ran0, ran1 and ran2.
  */
 
-#include "nr_ran.h"
+#include "nr_ran.hpp"
 
 long double ran0(long *idum) {
     long k;

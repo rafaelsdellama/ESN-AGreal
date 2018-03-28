@@ -1,9 +1,11 @@
 //Author Rafael Del Lama 
 
 #include "TEsn.hpp"
-#include "defTipo.hpp"
 #include <iostream>
 #include <cmath>
+#include "defTipo.hpp"
+
+using namespace std; 
 
 //-----------------------------------------	TEsn.cpp -----------------------------------------//
 /* Construtor
@@ -15,11 +17,13 @@
 ESN::ESN()
 {}
 
-ESN::ESN(int inputSize, int repSize, int outputSize, int n_rec)
+ESN::ESN(int inputSize, int repSize, int outputSize, double spectral_radius_d, double con_density)
 {
 	this->inputSize = inputSize;
 	this->repSize = repSize;
 	this->outputSize = outputSize;
+	this->spectral_radius_d = spectral_radius_d;
+	this->con_density = con_density;
 
 	Win = new double*[repSize];
 	W = new double*[repSize];
@@ -62,8 +66,6 @@ ESN::~ESN()
 */
 void ESN::weightInput(){
 	double min_W = -0.6, max_W = 0.6;
-	double spectral_radius_d = 0.95;
-	double con_density = 0.15; 
 
 /* Para finalidades praticas, entretanto, basta ajustar o raio espectral ƒÏ(W) de W a um valor abaixo da unidade para garantir a propriedade de echo
 state. E tambem importante que a dinamica dos neuronios do reservatorio seja bastante 3 variada. Para isso e necessario que os neuronios do reservatorio apresentem um padrao de
@@ -88,10 +90,7 @@ interconexao esparsa (cerca de 1-20%). - esn*/
 	// Normalizing W to desired spectral radius (Scaling W to spectral_radius_d (1/spectral_radius) W)
 	for (int i = 0; i < repSize; i++)
 		for (int j = 0; j < repSize; j++)
-				W[i][j] = spectral_radius_d * W[i][j] / spectral_radius;
-
-		
-	std::cout << "Conferir geração pesos da primeira camada e recorrencia!" << std::endl;	
+				W[i][j] = spectral_radius_d * W[i][j] / spectral_radius;	
 }// weightInput
 
 //-----------------	setResWeight -----------------//
@@ -103,8 +102,7 @@ void ESN::setResWeight (double *weight)
 	for(int i = 0; i < outputSize; i++)
 		for(int j = 0; j < repSize + 1; j++)
 			Wout[i][j] = weight[i*repSize + j];		
-			
-			
+						
 	for(int i = 0; i < repSize; i++)
 		recorrence[i] = 0;
 			
@@ -135,8 +133,11 @@ double* ESN::Execute (double *in)
 		out[i] = sum;
 	}
 
-	for(int i = 0; i < repSize; i++)
-		recorrence[i] = outRep[i];
+	double *aux;
+	aux = recorrence;
+	recorrence = outRep;
+	outRep = aux;
+
 	return out;
 }//Execute
 
@@ -193,3 +194,4 @@ void ESN::setW (double **weight)
 	
 	W = weight;
 }//setW
+

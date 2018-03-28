@@ -9,18 +9,16 @@
 \******************************************************************************/
 double calcFitnessSimulador(alelo *indiv, int gen)
 {
-	
 	int Fitness = 0;
 	double *mov;
 	double *in;
-	Simulador *simulador = new Simulador(200,120);
-
+	Simulador *simulador = new Simulador(200,120, dynamicEnvironment, maxGen,gen);
+	
 	//Pesos do repositório
 	esn->setResWeight(indiv); 
 
 	for(int i = 0, j = batterry; i < numMov && j > 0; i++, j--){
-		in = simulador->readSensor(10);		
-		
+		in = simulador->readSensor(10, gen);			
 		mov = esn->Execute(in);				//Verifica a saída da ESN de acordo com a entrada
 		
 		//Define qual movimento vai ser executado (movimento correspondete ao neuronio de maior ativação)
@@ -28,11 +26,11 @@ double calcFitnessSimulador(alelo *indiv, int gen)
 		for(int k = 1; k < outputSize; k++)
 			if(mov[k] > mov[aux])
 				aux = k;
-		
+	
 		//Se o robô bateu, finaliza a simulação
-		if(!simulador->execute(aux, 10)) 
+		if(!simulador->execute(aux, 10, gen)) 
 			break;
-		
+	
 		//Verifica se o robô está na base
 		if(simulador->isBase())
 			j = batterry;						 //Recarrega a bateria
@@ -43,7 +41,7 @@ double calcFitnessSimulador(alelo *indiv, int gen)
 		delete mov;
 		delete in;
 	}
-
+	
 	delete simulador;
 		
 	return Fitness / (double)numMov;
@@ -52,13 +50,12 @@ double calcFitnessSimulador(alelo *indiv, int gen)
 /******************************************************************************\
 *								Calculo Trajeto					 *
 \******************************************************************************/
-double calcTrajeto (alelo *indiv, int nroExec)
+double calcTrajeto (alelo *indiv, int nroExec, int gen)
 {
-	
 	int Fitness = 0;
 	double *mov;
 	double *in;
-	Simulador *simulador = new Simulador(200,120);
+	Simulador *simulador = new Simulador(200,120, dynamicEnvironment, maxGen, gen);
 
 	//Pesos do repositório
 	esn->setResWeight(indiv); 
@@ -72,7 +69,7 @@ double calcTrajeto (alelo *indiv, int nroExec)
 	
 	int i, j;
 	for(i = 0, j = batterry; i < numMov && j > 0; i++, j--){
-		in = simulador->readSensor(10);		
+		in = simulador->readSensor(10, gen);		
 		
 		mov = esn->Execute(in);				//Verifica a saída da ESN de acordo com a entrada
 		
@@ -83,7 +80,7 @@ double calcTrajeto (alelo *indiv, int nroExec)
 				aux = k;
 		
 		//Se o robô bateu, finaliza a simulação
-		if(!simulador->execute(aux, 10)) 
+		if(!simulador->execute(aux, 10, gen)) 
 			break;
 		
 		pos[0][i+1] = simulador->getPosX();
@@ -118,11 +115,10 @@ double calcTrajeto (alelo *indiv, int nroExec)
 \******************************************************************************/
 double calcFitness(alelo *indiv, int gen)
 {	
-	int n = 10;
 	double Fitness = 0;	
-	for(int i = 0; i < n; i++)
+	for(int i = 0; i < numSimulacao; i++)
 		Fitness += calcFitnessSimulador(indiv, gen);
 
-	Fitness = Fitness / n;
+	Fitness = Fitness / numSimulacao;
 	return Fitness;
 }
