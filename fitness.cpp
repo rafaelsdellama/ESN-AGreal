@@ -12,7 +12,7 @@ double calcFitnessSimulador(alelo *indiv, int gen)
 	int Fitness = 0;
 	double *mov;
 	double *in;
-	Simulador *simulador = new Simulador(200,120, dynamicEnvironment, maxGen,gen);
+	Simulador *simulador = new Simulador(120,200, dynamicEnvironment, maxGen,gen);
 	
 	//Pesos do repositório
 	esn->setResWeight(indiv); 
@@ -28,8 +28,11 @@ double calcFitnessSimulador(alelo *indiv, int gen)
 				aux = k;
 	
 		//Se o robô bateu, finaliza a simulação
-		if(!simulador->execute(aux, 10, gen)) 
+		if(!simulador->execute(aux, 10, gen)){
+			delete mov;
+			delete in;
 			break;
+		}
 	
 		//Verifica se o robô está na base
 		if(simulador->isBase())
@@ -55,7 +58,7 @@ double calcTrajeto (alelo *indiv, int nroExec, int gen)
 	int Fitness = 0;
 	double *mov;
 	double *in;
-	Simulador *simulador = new Simulador(200,120, dynamicEnvironment, maxGen, gen);
+	Simulador *simulador = new Simulador(120,200, dynamicEnvironment, maxGen, gen);
 
 	//Pesos do repositório
 	esn->setResWeight(indiv); 
@@ -80,8 +83,11 @@ double calcTrajeto (alelo *indiv, int nroExec, int gen)
 				aux = k;
 		
 		//Se o robô bateu, finaliza a simulação
-		if(!simulador->execute(aux, 10, gen)) 
+		if(!simulador->execute(aux, 10, gen)){
+			delete mov;
+			delete in;
 			break;
+		}
 		
 		pos[0][i+1] = simulador->getPosX();
 		pos[1][i+1] = simulador->getPosY();

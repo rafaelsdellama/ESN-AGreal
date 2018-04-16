@@ -85,7 +85,7 @@ void algGen (int nroExec, int op) {
 		
 		impressao(&popVelha,gen);
 	} while ( gen < maxGen );
-	calcTrajeto (popVelha.indiv[popVelha.melhorIndividuo].cromossomo, nroExec, gen);		//Calcula e salva a trajetoria do melhor indiv da ultima geração
+	//calcTrajeto (popVelha.indiv[popVelha.melhorIndividuo].cromossomo, nroExec, gen);		//Calcula e salva a trajetoria do melhor indiv da ultima geração
 	arq_saida( nroExec);					// salva dados
 }
 

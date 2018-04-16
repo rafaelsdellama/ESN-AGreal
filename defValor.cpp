@@ -20,7 +20,7 @@ double con_density = 0.15;
 
 // Parametros da simulacao
 int nroMaxExec = 25;								// numero de repeticoes do AG
-int maxGen = 1000;									// numero maximo de geracoes 
+int maxGen = 2200;									// numero maximo de geracoes 
 
 // Parametros do AG
 int tamPop = 100;									// tamanho da pop. 
@@ -44,7 +44,7 @@ double taxaMigracao = 0.05;							// taxa de imigrantes
 
 
 //Parametros Simulação
-int numMov = 300; //390
-int batterry = 80; // 130
+int numMov = 300; 
+int batterry = 80;
 bool dynamicEnvironment = true;
 int numSimulacao = 10;

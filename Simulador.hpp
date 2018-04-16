@@ -141,8 +141,8 @@ int Simulador::sensor (int dist, int ang, int gen){
 	if( x >= tamX || x <= 0 || y >= tamY || y <= 0 )
 		return 1;	
 	
-	if(dynamicEnvironment == true) {
-		int ambiente = gen / (maxGen / 10);
+	if(dynamicEnvironment == true && gen > 0) {
+		int ambiente = (gen - 1) / ((maxGen -200)/ 10);
 
 		switch (ambiente){
 			case 1 :
