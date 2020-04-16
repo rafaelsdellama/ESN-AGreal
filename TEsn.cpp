@@ -117,7 +117,7 @@ double* ESN::Execute (double *in)
 {	
 	double sum;
 	for(int i = 0; i < repSize; i++){
-		sum = Win[i][0];
+		sum = Win[i][0]; // bias
 		for(int j = 1; j < inputSize + 1; j++)
 			sum += Win[i][j] * in[j-1];
 		for(int j = 0; j < repSize; j++)

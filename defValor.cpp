@@ -39,7 +39,7 @@ double taxaR = 3;									//porcentagem de acrescimo na taxa de mutação (1 + tax
 bool cicloHipermutacao = false;						//determina se acabou de ocorrer um ciclo de hipermutação - NÃO ALTERAR
 
 //Imigração
-bool imigracao = false ;							// true: imigracao ; false: sem imigracao
+bool imigracao = false;								// true: imigracao ; false: sem imigracao
 double taxaMigracao = 0.05;							// taxa de imigrantes
 
 

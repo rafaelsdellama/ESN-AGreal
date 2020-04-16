@@ -10,20 +10,20 @@
 double calcFitnessSimulador(alelo *indiv, int gen)
 {
 	int Fitness = 0;
-	double *mov;
-	double *in;
-	Simulador *simulador = new Simulador(120,200, dynamicEnvironment, maxGen,gen);
+	double *mov; // Acao tomada
+	double *in; // Leituras dos sensores
+	Simulador *simulador = new Simulador(120,200, dynamicEnvironment, maxGen, gen);
 	
-	//Pesos do repositório
+	//Pesos do repositório -> saída
 	esn->setResWeight(indiv); 
 
-	for(int i = 0, j = batterry; i < numMov && j > 0; i++, j--){
+	for(int i = 0, j = batterry; i < numMov && j > 0; i++, j--){ // Enquanto ainda tenho mov para realizar (i < numMov) e ainda tenho bateria (j > 0)
 		in = simulador->readSensor(10, gen);			
 		mov = esn->Execute(in);				//Verifica a saída da ESN de acordo com a entrada
 		
 		//Define qual movimento vai ser executado (movimento correspondete ao neuronio de maior ativação)
-		int aux = 0;
-		for(int k = 1; k < outputSize; k++)
+		int aux = 0; // Maior saída é a 0
+		for(int k = 1; k < outputSize; k++) // Para cada saída, se for maior q aux, substitui
 			if(mov[k] > mov[aux])
 				aux = k;
 	
