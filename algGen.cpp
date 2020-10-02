@@ -92,6 +92,7 @@ void algGen (int nroExec, int op) {
 /******************************************************************************\
 *				  	main							 			 *
 \******************************************************************************/
+/*
 int main(void) {
 
 	int nroExec, num_ind;
@@ -133,11 +134,12 @@ int main(void) {
 	delete [] popNova.indiv;
 	desaloc_matrixd(arq_melhor_individuo,maxGen+1);
 
-	/* Visualizacao */
+	// Visualizacao 
 	cout<<"\tFim do programa!"<<endl;
 
 	system("pause");
  	
 	return 0;
 }//main
+*/
 
